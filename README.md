@@ -1,9 +1,10 @@
 # my-configs
 ## Deps
+- i3-gaps
 - picom
 - kitty
-- i3-gaps
 - neofetch
+- ranger
 
 ## installation
 move to ~/.config folder
