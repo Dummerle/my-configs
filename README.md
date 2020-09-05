@@ -5,6 +5,7 @@
 - kitty
 - neofetch
 - ranger
+- rofi
 
 ## installation
 move to ~/.config folder
