@@ -1,0 +1,196 @@
+set $super Mod4
+set $alt Mod1
+
+# set keyboard layout
+#exec "setxkbmap -layout sv"
+
+#set font
+font pango: FontAwesome 10
+
+#####################[WINDOWS AND WORKSPACES]#######################
+# Use Mouse+$super to drag floating windows to their wanted position
+floating_modifier $super
+
+new_window pixel 0
+
+#set the gaps
+gaps inner 25
+gaps outer 25
+
+
+#smart_borders on
+smart_gaps on
+
+# kill focused window
+bindsym $super+q kill
+
+#tags
+set $tag1 
+set $tag2 
+set $tag3 
+set $tag4 
+set $tag5 
+set $tag6 
+set $tag7 
+set $tag8 
+set $tag9 
+set $tag0 
+
+# change focus
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
+
+# Move window
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $super+h split h
+
+# split in vertical orientation
+bindsym $super+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $super+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+#bindsym $super+s layout stacking
+#bindsym $super+w layout tabbed
+#bindsym $super+e layout toggle split
+
+# toggle tiling / floating
+#bindsym $super+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $super+space focus mode_toggle
+
+bindsym $super+Shift+r mode "resize"
+mode "resize" {
+    # same bindings, but for the arrow keys
+    bindsym Left resize shrink width 1 px or 1 ppt
+    bindsym Down resize grow height 1 px or 1 ppt
+    bindsym Up resize shrink height 1 px or 1 ppt
+    bindsym Right resize grow width 1 px or 1 ppt
+
+    # same bindings, but for the arrow keys
+    bindsym Control+Left resize shrink width 5 px or 5 ppt
+    bindsym Control+Down resize grow height 5 px or 5 ppt
+    bindsym Control+Up resize shrink height 5 px or 5 ppt
+    bindsym Control+Right resize grow width 5 px or 5 ppt
+
+   # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+
+    ## Title / show / hide border ##
+    bindsym o border toggle
+
+    ## Back to normal ##
+    bindsym $super+r  mode "default"
+}
+
+# switch to workspace
+bindsym $super+1 workspace 1 $tag1
+bindsym $super+2 workspace 2 $tag2
+bindsym $super+3 workspace 3 $tag3
+bindsym $super+4 workspace 4 $tag4
+bindsym $super+5 workspace 5 $tag5
+bindsym $super+6 workspace 6 $tag6
+bindsym $super+7 workspace 7 $tag7
+bindsym $super+8 workspace 8 $tag8
+bindsym $super+9 workspace 9 $tag9
+bindsym $super+0 workspace 10 $tag10
+
+# PageUp & PageDown
+bindsym $super+Prior workspace prev
+bindsym $super+Next workspace next
+
+# move focused container to workspace
+bindsym $super+Shift+1 move container to workspace 1 $tag1
+bindsym $super+Shift+2 move container to workspace 2 $tag2
+bindsym $super+Shift+3 move container to workspace 3 $tag3
+bindsym $super+Shift+4 move container to workspace 4 $tag4
+bindsym $super+Shift+5 move container to workspace 5 $tag5
+bindsym $super+Shift+6 move container to workspace 6 $tag6
+bindsym $super+Shift+7 move container to workspace 7 $tag7
+bindsym $super+Shift+8 move container to workspace 8 $tag8
+bindsym $super+Shift+9 move container to workspace 9 $tag9
+bindsym $super+Shift+0 move container to workspace 10 $tag10
+
+# resize window (you can also use the mouse for that)
+###############[KEYBINDINGS]##################
+#show notification center
+#bindsym $super+p exec "kill -s USR1 $(pidof deadd-notification-center)"
+
+# take screenshot
+bindsym Print exec "scrot"
+
+# start a terminal
+bindsym $super+Return exec "kitty"
+#bindsym $super+e exec "gtk-launch /usr/share/applications/ranger.desktop"
+
+# open rofi
+bindsym $super+r exec "rofi -show drun"
+bindsym $super+p exec pycharm
+
+# start chrome
+bindsym $super+c exec "google-chrome-stable"
+
+# Sound output
+bindsym XF86AudioRaiseVolume exec  pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle # mute sound
+
+#Sound input
+bindsym XF86AudioMicMute exec pactl set-source-mute 1 toggle
+
+# Sleep key
+bindsym XF86Sleep exec --no-startup-id systemctl suspend
+
+# Screen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
+# Mouse
+#
+############[OTHER STUFF]##################
+# reload the configuration file
+bindsym $super+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $super+Shift+x restart
+
+# exit i3 (logs you out of your X session)
+mode "(l)ock (s)leep (h)ybernate (r)eboot (p)oweroff (e)xit-i3" {
+        bindsym l exec ~/.i3/bin/i3lock.sh; mode "default"
+        bindsym s exec ~/.i3/bin/i3lock.sh && systemctl suspend; mode "default"
+        bindsym h exec ~/.i3/bin/i3lock.sh && systemctl hibernate; mode "default"
+        bindsym p exec systemctl poweroff; mode "default"
+        bindsym r exec systemctl reboot; mode "default"
+        bindsym e exec --no-startup-id i3-msg exit; mode "default"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $super+Shift+q mode "(l)ock (s)leep (h)ybernate (r)eboot (p)oweroff (e)xit-i3"
+
+
+#####################[STARTUP]#####################
+
+exec_always --no-startup-id "killall -q deadd-notification-center"
+exec --no-startup-id feh --bg-scale /home/lennard/.config/i3/Wallpaper.png
+exec_always --no-startup-id "~/.config/i3/start_picom.sh"
+exec --no-startup-id "~/.config/polybar/launch.sh"
+exec --no-startup-id redshift
+exec_always  --no-startup-id "nm-applet"
+#exec --no-startup-id "cbatticon"
+exec_always --no-startup-id "blueman-applet"
+#exec_always --no-startup-id "picom"
+exec_always  --no-startup-id "deadd-notification-center"
+exec "ipfs-desktop"
+exec --no-startup-id cbatticon
+
+exec --no-startup-id discord
