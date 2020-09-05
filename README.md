@@ -5,5 +5,5 @@
 - i3-gaps
 - neofetch
 
-##installation
+## installation
 move to ~/.config folder
