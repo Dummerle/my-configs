@@ -35,7 +35,7 @@ line-size = 3
 line-color = #f00
 
 border-size = 4
-border-color = 
+border-color = 000 
 padding-left = 0
 padding-right = 2
 
@@ -55,7 +55,7 @@ font-2 = "FontAwesome:size=11;1"
 
 modules-left = i3
 modules-center = xwindow
-modules-right = volume memory cpu temperature wlan battery time
+modules-right = volume memory cpu temperature xkeyboard wlan battery time
 
 tray-position = right
 tray-padding = 2
@@ -79,19 +79,30 @@ label = %title:0:30:...%
 
 [module/xkeyboard]
 type = internal/xkeyboard
-blacklist-0 = num lock
+blacklist-0 = scroll lock
+blacklist-1 = layout
 
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-underline = ${colors.secondary}
+label-underline = #456711
 
-label-layout = %layout%
-label-layout-underline = ${colors.secondary}
+;format-prefix = " "
+;format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-underline = "#456711"
+;label-indicator-off-capslock = 
+;label-indicator-on-numlock = 
+;label-indicator-off-numlock = 
 
-label-indicator-padding = 2
-label-indicator-margin = 1
-label-indicator-background = ${colors.secondary}
-label-indicator-underline = ${colors.secondary}
+label-layout = 
+;label-indicator-on-numlock-underline = #456711
+
+;label-indicator-padding = 2
+;label-indicator-margin = 1
+;label-indicator-background = ${colors.secondary}
+;label-indicator-underline = ${colors.secondary}
+
+label-indicator-on-capslock = C
+label-indicator-off-capslock = 
+label-indicator-on-numlock = Num
+label-indicator-off-numlock = off
 
 [module/filesystem]
 type = internal/fs
@@ -197,7 +208,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline =  #456771
-label = %percentage%%
+label = CPU: %percentage%%
 
 [module/memory]
 type = internal/memory
@@ -205,7 +216,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline =  #456771
-label = %percentage_used%%
+label = MEM: %percentage_used%%
 
 [module/wlan]
 type = internal/network
@@ -301,14 +312,14 @@ click-right = cmus-remote --stop\
 
 [module/battery]
 type = internal/battery
-battery = BATo
-adapter = ADP0
-full-at = 99
+battery = BAT1
+adapter = ACAD
+full-at = 99.6
 
-format-charging = <animation-charging> <label-charging>
+format-charging = Bat: <animation-charging> <label-charging>
 format-charging-underline =  #456771
 
-format-discharging = <ramp-capacity> <label-discharging>
+format-discharging = Bat: <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix = " "
@@ -320,34 +331,44 @@ ramp-capacity-1 = 
 ramp-capacity-2 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
 
+label-full = Bat: 100%
+
 animation-charging-0 = 
 animation-charging-1 = 
 animation-charging-2 = 
 animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 750
 
+
+
+
 [module/temperature]
 type = internal/temperature
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 0.5
+
+; Thermal zone to use
+; To list all the zone types, run 
+; $ for i in /sys/class/thermal/thermal_zone*; do echo "$i: $(<$i/type)"; done
+; Default: 0
 thermal-zone = 0
-warn-temperature = 60
 
-format = <ramp> <label>
-format-underline =  #456771
-format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
+; Full path of temperature sysfs path
+; Use `sensors` to find preferred temperature source, then run
+; $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
+; to find path to desired file
+; Default reverts to thermal zone setting
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
 
-label = %temperature%
-label-warn = %temperature%
-label-warn-foreground = ${colors.secondary}
+; Base temperature for where to start the ramp (in degrees celsius)
+; Default: 0
+base-temperature = 20
 
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
-
-format-prefix = " "
-format-prefix-foreground = #666
-
+; Threshold temperature to display warning label (in degrees celsius)
+; Default: 80
+warn-temperature = 80
 
 [module/powermenu]
 type = custom/menu

@@ -2,10 +2,10 @@ set $super Mod4
 set $alt Mod1
 
 # set keyboard layout
-#exec "setxkbmap -layout sv"
+exec "setxkbmap de"
 
 #set font
-font pango: FontAwesome 10
+font pango: FontAwesome 12
 
 #####################[WINDOWS AND WORKSPACES]#######################
 # Use Mouse+$super to drag floating windows to their wanted position
@@ -36,6 +36,8 @@ set $tag8 
 set $tag9 
 set $tag0 
 
+set $terminal "kitty"
+
 # change focus
 bindsym $super+Left focus left
 bindsym $super+Down focus down
@@ -63,7 +65,10 @@ bindsym $super+f fullscreen toggle
 #bindsym $super+e layout toggle split
 
 # toggle tiling / floating
-#bindsym $super+Shift+space floating toggle
+bindsym $super+Shift+space floating toggle
+
+#lock
+bindsym $super+l exec i3lock -c 000000
 
 # change focus between tiling / floating windows
 bindsym $super+space focus mode_toggle
@@ -128,22 +133,29 @@ bindsym $super+Shift+0 move container to workspace 10 $tag10
 
 # take screenshot
 bindsym Print exec "scrot"
+bindsym $super+Print exec "scrot -s"
 
 # start a terminal
-bindsym $super+Return exec "kitty"
-#bindsym $super+e exec "gtk-launch /usr/share/applications/ranger.desktop"
+bindsym $super+Return exec $terminal
+bindsym $super+e exec "kitty ranger"
 
 # open rofi
 bindsym $super+r exec "rofi -show drun"
 bindsym $super+p exec pycharm
+bindsym $super+w exec webstorm
 
 # start chrome
-bindsym $super+c exec "google-chrome-stable"
+bindsym $super+c exec "firefox"
 
 # Sound output
-bindsym XF86AudioRaiseVolume exec  pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioRaiseVolume exec  amixer -D pulse sset Master 5%+
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle # mute sound
+
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 #Sound input
 bindsym XF86AudioMicMute exec pactl set-source-mute 1 toggle
@@ -157,7 +169,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 
 # Mouse
 #
-############[OTHER STUFF]##################
+###########[OTHER STUFF]##################
 # reload the configuration file
 bindsym $super+Shift+c reload
 
@@ -177,20 +189,21 @@ mode "(l)ock (s)leep (h)ybernate (r)eboot (p)oweroff (e)xit-i3" {
 }
 bindsym $super+Shift+q mode "(l)ock (s)leep (h)ybernate (r)eboot (p)oweroff (e)xit-i3"
 
+for_window [instance="Origin.exe"] floating enable
 
 #####################[STARTUP]#####################
 
 exec_always --no-startup-id "killall -q deadd-notification-center"
-exec --no-startup-id feh --bg-scale /home/lennard/.config/i3/Wallpaper.png
-exec_always --no-startup-id "~/.config/i3/start_picom.sh"
+exec --no-startup-id feh --bg-scale /home/lennard/.config/i3/Wallpaper.jpg
+#exec_always --no-startup-id "~/.config/i3/start_picom.sh"
 exec --no-startup-id "~/.config/polybar/launch.sh"
-exec --no-startup-id redshift
+#exec --no-startup-id redshift
 exec_always  --no-startup-id "nm-applet"
 #exec --no-startup-id "cbatticon"
-exec_always --no-startup-id "blueman-applet"
+#exec_always --no-startup-id "blueman-applet"
 #exec_always --no-startup-id "picom"
-exec_always  --no-startup-id "deadd-notification-center"
-exec "ipfs-desktop"
-exec --no-startup-id cbatticon
-
+#exec_always  --no-startup-id "deadd-notification-center"
+#exec "ipfs-desktop"
+#exec --no-startup-id cbatticon
+exec --no-startup-id i3-battery-popup
 exec --no-startup-id discord
