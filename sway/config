@@ -2,7 +2,18 @@ set $super Mod4
 set $alt Mod1
 
 # set keyboard layout
-exec "setxkbmap de"
+# exec "setxkbmap de"
+
+input * {
+    xkb_layout "de"
+}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
+
+output eDP-1 mode 2256x1504 scale 1
 
 #set font
 font pango: FontAwesome 12
@@ -11,7 +22,7 @@ font pango: FontAwesome 12
 # Use Mouse+$super to drag floating windows to their wanted position
 floating_modifier $super
 
-new_window pixel 0
+default_border pixel 0
 
 #set the gaps
 gaps inner 10
@@ -66,9 +77,6 @@ bindsym $super+f fullscreen toggle
 
 # toggle tiling / floating
 bindsym $super+Shift+space floating toggle
-
-#lock
-bindsym $super+l exec i3lock -c 000000
 
 # change focus between tiling / floating windows
 bindsym $super+space focus mode_toggle
@@ -164,8 +172,8 @@ bindsym XF86AudioMicMute exec pactl set-source-mute 1 toggle
 bindsym XF86Sleep exec --no-startup-id systemctl suspend
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
 
 # Mouse
 #
@@ -181,8 +189,8 @@ mode "(l)ock (s)leep (h)ybernate (r)eboot (p)oweroff (e)xit-i3" {
         bindsym l exec ~/.i3/bin/i3lock.sh; mode "default"
         bindsym s exec ~/.i3/bin/i3lock.sh && systemctl suspend; mode "default"
         bindsym h exec ~/.i3/bin/i3lock.sh && systemctl hibernate; mode "default"
-        bindsym p exec poweroff; mode "default"
-        bindsym r exec reboot; mode "default"
+        bindsym p exec systemctl poweroff; mode "default"
+        bindsym r exec systemctl reboot; mode "default"
         bindsym e exec --no-startup-id i3-msg exit; mode "default"
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -191,12 +199,28 @@ bindsym $super+Shift+q mode "(l)ock (s)leep (h)ybernate (r)eboot (p)oweroff (e)x
 
 for_window [instance="Origin.exe"] floating enable
 
+### Idle configuration
+#
+# Example configuration:
+#
+exec swayidle -w \
+         timeout 360 'swaylock' \
+         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         before-sleep 'swaylock'
+
+bindsym $super+l exec swaylock
+
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
 #####################[STARTUP]#####################
 
 exec_always --no-startup-id "killall -q deadd-notification-center"
-exec --no-startup-id feh --bg-scale /home/lennard/.config/i3/Wallpaper.png
+# Wallpaper
+output * bg ~/.config/i3/Wallpaper.png fill
 #exec_always --no-startup-id "~/.config/i3/start_picom.sh"
-exec --no-startup-id "~/.config/polybar/launch.sh"
+#exec --no-startup-id "~/.config/polybar/launch.sh"
 #exec --no-startup-id redshift
 exec_always  --no-startup-id "nm-applet"
 #exec --no-startup-id "cbatticon"
@@ -205,5 +229,10 @@ exec_always  --no-startup-id "nm-applet"
 #exec_always  --no-startup-id "deadd-notification-center"
 #exec "ipfs-desktop"
 #exec --no-startup-id cbatticon
-exec --no-startup-id i3-battery-popup
+#exec --no-startup-id i3-battery-popup
 exec --no-startup-id discord
+
+bar {
+    position bottom
+    swaybar_command waybar
+}
