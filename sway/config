@@ -14,6 +14,10 @@ input type:touchpad {
 }
 
 output eDP-1 mode 2256x1504 scale 1
+output DP-3 mode 1920x1080@143.981Hz
+
+bindsym $super+greater move workspace to output right
+bindsym $super+less move workspace to output left
 
 #set font
 font pango: FontAwesome 12
@@ -156,12 +160,11 @@ bindsym $super+w exec webstorm
 bindsym $super+c exec "firefox"
 
 # Sound output
-bindsym XF86AudioRaiseVolume exec  amixer -D pulse sset Master 5%+
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec  pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
 
-bindsym XF86AudioPlay exec playerctl play
-bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
@@ -227,6 +230,7 @@ exec_always  --no-startup-id "nm-applet"
 #exec_always --no-startup-id "blueman-applet"
 #exec_always --no-startup-id "picom"
 #exec_always  --no-startup-id "deadd-notification-center"
+exec mako
 #exec "ipfs-desktop"
 #exec --no-startup-id cbatticon
 #exec --no-startup-id i3-battery-popup

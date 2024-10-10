@@ -28,7 +28,14 @@
 		"cpu",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
+		"temperature",
+		"custom/left-arrow-light",
+		"custom/left-arrow-dark",
+		"network",
+		"custom/left-arrow-light",
+		"custom/left-arrow-dark",
 		"battery",
+                "power-profiles-daemon",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"tray"
@@ -62,7 +69,8 @@
 	},
 	"clock#2": {
 		"format": "{:%H:%M}",
-		"tooltip": false
+		"tooltip-format": "{:%H:%M:%S}",
+                "interval": 1
 	},
 	"clock#3": {
 		"format": "{:%d.%m.%y}",
@@ -71,8 +79,8 @@
 
 	"pulseaudio": {
 		"format": "{icon} {volume:2}%",
-		"format-bluetooth": "{icon}  {volume}%",
-		"format-muted": "MUTE",
+		"format-bluetooth": "{icon}  {volume}% ",
+		"format-muted": "",
 		"format-icons": {
 			"headphones": "",
 			"default": [
@@ -81,24 +89,28 @@
 			]
 		},
 		"scroll-step": 5,
-		"on-click": "pamixer -t",
+		"on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
 		"on-click-right": "pavucontrol"
 	},
 	"memory": {
 		"interval": 5,
-		"format": "Mem {}%"
+		"format": " {}%"
 	},
 	"cpu": {
 		"interval": 5,
-		"format": "CPU {usage:2}%"
+		"format": " {usage:2}%"
 	},
 	"battery": {
+        "interval": 3,
 		"states": {
-			"good": 95,
+			"good": 75,
 			"warning": 30,
 			"critical": 15
 		},
 		"format": "{icon} {capacity}%",
+                "format-charging": " {capacity}",
+                "tooltip-format": "{timeTo}\nPower usage: {power:2}W\nHealth: {health}%",
+                "format-time": "{H} h {M} min",
 		"format-icons": [
 			"",
 			"",
@@ -115,9 +127,40 @@
 	"tray": {
 		"icon-size": 20
 	},
-        "backlight": {
-                "device": "intel_backlight",
-                "format": "{icon }{percent}%",
-                "format-icons": ["", ""]
+    "backlight": {
+            "device": "intel_backlight",
+            "format": "{icon }{percent}%",
+            "format-icons": ["", ""]
+    },
+     "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": " {temperatureC}°C",
+        "format": " {temperatureC}°C"
+    },
+    "network": {
+        "interface": "wlan0",
+        "interval": 3,
+        "format": "{ifname}",
+        "format-wifi": " {essid} {bandwidthDownBytes}",
+        "format-ethernet": " {ipaddr} {bandwidthDownBytes}",
+        "format-disconnected": "Disconnected", //An empty format will hide the module.
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) {frequency}GHz",
+        "tooltip-format-ethernet": "{ifname} ",
+        "tooltip-format-disconnected": "Disconnected",
+        "max-length": 50
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
         }
+    }
 }

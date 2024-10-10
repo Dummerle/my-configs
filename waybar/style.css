@@ -27,6 +27,9 @@ window#waybar {
 #cpu,
 #battery,
 #disk,
+#temperature,
+#network,
+#power-profiles-daemon,
 #tray {
 	background: #1a1a1a;
 }
@@ -58,10 +61,47 @@ window#waybar {
 	color: #6c71c4;
 }
 #battery {
-	color: #859900;
+	color: #04a801;
 }
+#battery.critical{
+	color: #dc322f;
+}
+#battery.warning{
+	color: #dcc52f;
+}
+#battery.charging{
+	color: #4f6fff;
+}
+@keyframes blink {
+	to {
+		color: transparent;
+	}
+}
+
+#battery.critical:not(.charging) {
+	color: #dc322f;
+	animation-name: blink;
+	animation-duration: 1s;
+	animation-timing-function: steps(12);
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
 #disk {
 	color: #b58900;
+}
+#temperature {
+	color: #3961fa;
+}
+#temperature.critical{
+	color: #dc322f;
+}
+
+#network {
+	color: #16cb34;
+}
+#network.disconnected {
+	color: #dc322f;
 }
 
 #clock,
@@ -69,6 +109,8 @@ window#waybar {
 #memory,
 #cpu,
 #battery,
+#network,
+#temperature,
 #disk {
 	padding: 0 10px;
 }
