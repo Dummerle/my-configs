@@ -1,6 +1,6 @@
 * {
 	font-size: 20px;
-	font-family: monospace;
+	font-family: "Symbols Nerd Font", "Font Awesome 7 Free Solid", "Font Awesome 7 Free", monospace;
 }
 
 window#waybar {
@@ -111,7 +111,12 @@ window#waybar {
 #battery,
 #network,
 #temperature,
+#mode,
 #disk {
 	padding: 0 10px;
+}
+
+#mode {
+	font-size: 15px;
 }
 

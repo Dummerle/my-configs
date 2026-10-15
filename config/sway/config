@@ -153,7 +153,7 @@ bindsym $super+e exec "kitty ranger"
 
 # open rofi
 bindsym $super+r exec "rofi -show drun"
-bindsym $super+p exec pycharm
+bindsym $super+p exec pycharm-professional
 bindsym $super+w exec webstorm
 
 # start chrome

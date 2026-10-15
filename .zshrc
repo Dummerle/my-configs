@@ -108,6 +108,8 @@ alias please="sudo"
 alias gc="git commit -m"
 alias sl='ls | rev'
 
+alias neofetch=fastfetch
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 

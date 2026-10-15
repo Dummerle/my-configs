@@ -4,7 +4,8 @@
 
 	"modules-left": [
 		"sway/workspaces",
-		"custom/right-arrow-dark"
+		"custom/right-arrow-dark",
+		"sway/mode",
 	],
 	"modules-center": [
 		"custom/left-arrow-dark",
@@ -94,7 +95,7 @@
 	},
 	"memory": {
 		"interval": 5,
-		"format": " {}%"
+		"format": " {}%"
 	},
 	"cpu": {
 		"interval": 5,
@@ -140,7 +141,7 @@
         "format": " {temperatureC}°C"
     },
     "network": {
-        "interface": "wlan0",
+        "interface": "wlp1s0",
         "interval": 3,
         "format": "{ifname}",
         "format-wifi": " {essid} {bandwidthDownBytes}",
