@@ -15,6 +15,7 @@
 - ranger
 - neofetch
 - zsh
+- vim
 - light, pactl, playerctl
 - Fonts: Font Awesome, Symbols Nerd Font
 
@@ -26,7 +27,7 @@ cd ~/my-configs
 ./install.sh
 ```
 
-`install.sh` symlinks every folder in `config/` to `~/.config/` and `.zshrc` to `~/.zshrc`.
+`install.sh` symlinks every folder in `config/` to `~/.config/` and `.zshrc`/`.vimrc` to `~/`.
 Existing files are moved to `<name>.bak-<timestamp>`.
 
 Because the configs are symlinks, `git pull` updates them directly.
