@@ -129,3 +129,6 @@ if [ -f '/home/lennard/Android/google-cloud-sdk/completion.zsh.inc' ]; then . '/
 
 export PATH=$PATH:/home/lennard/.cargo/bin
 export CHROME_EXECUTABLE=chromium
+
+# SSH agent from gnome-keyring (gcr-ssh-agent.socket); passphrases are stored in the keyring
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"

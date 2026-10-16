@@ -20,7 +20,7 @@ bindsym $super+greater move workspace to output right
 bindsym $super+less move workspace to output left
 
 #set font
-font pango: FontAwesome 12
+font pango:JetBrainsMono Nerd Font 11
 
 #####################[WINDOWS AND WORKSPACES]#######################
 # Use Mouse+$super to drag floating windows to their wanted position
@@ -49,9 +49,9 @@ set $tag6 
 set $tag7 
 set $tag8 
 set $tag9 
-set $tag0 
+set $tag10 
 
-set $terminal "kitty"
+set $terminal "foot"
 
 # change focus
 bindsym $super+Left focus left
@@ -143,13 +143,14 @@ bindsym $super+Shift+0 move container to workspace 10 $tag10
 #show notification center
 #bindsym $super+p exec "kill -s USR1 $(pidof deadd-notification-center)"
 
-# take screenshot
-bindsym Print exec "scrot"
-bindsym $super+Print exec "scrot -s"
+# take screenshot (full screen / selection), saved to ~/Screenshots and copied to clipboard
+set $screenshot_file ~/Screenshots/screenshot-$(date +%F_%H-%M-%S).png
+bindsym Print exec 'mkdir -p ~/Screenshots && f=$screenshot_file && grim "$f" && wl-copy < "$f"'
+bindsym $super+Print exec 'mkdir -p ~/Screenshots && f=$screenshot_file && grim -g "$(slurp)" "$f" && wl-copy < "$f"'
 
 # start a terminal
 bindsym $super+Return exec $terminal
-bindsym $super+e exec "kitty ranger"
+bindsym $super+e exec "thunar"
 
 # open rofi
 bindsym $super+r exec "rofi -show drun"
@@ -169,14 +170,14 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 #Sound input
-bindsym XF86AudioMicMute exec pactl set-source-mute 1 toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # Sleep key
-bindsym XF86Sleep exec --no-startup-id systemctl suspend
+bindsym XF86Sleep exec systemctl suspend
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
 # Mouse
 #
@@ -184,48 +185,44 @@ bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
 # reload the configuration file
 bindsym $super+Shift+c reload
 
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $super+Shift+x restart
-
-# exit i3 (logs you out of your X session)
-mode "(l)ock (s)leep (h)ybernate (r)eboot (p)oweroff (e)xit-i3" {
-        bindsym l exec ~/.i3/bin/i3lock.sh; mode "default"
-        bindsym s exec ~/.i3/bin/i3lock.sh && systemctl suspend; mode "default"
-        bindsym h exec ~/.i3/bin/i3lock.sh && systemctl hibernate; mode "default"
+# power menu: lock, suspend, hibernate, reboot, poweroff, exit sway
+set $mode_system "(l)ock (s)leep (h)ibernate (r)eboot (p)oweroff (e)xit"
+mode $mode_system {
+        bindsym l exec swaylock -f; mode "default"
+        bindsym s exec swaylock -f && systemctl suspend; mode "default"
+        bindsym h exec swaylock -f && systemctl hibernate; mode "default"
         bindsym p exec systemctl poweroff; mode "default"
         bindsym r exec systemctl reboot; mode "default"
-        bindsym e exec --no-startup-id i3-msg exit; mode "default"
+        bindsym e exec swaymsg exit; mode "default"
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-bindsym $super+Shift+q mode "(l)ock (s)leep (h)ybernate (r)eboot (p)oweroff (e)xit-i3"
+bindsym $super+Shift+q mode $mode_system
 
 for_window [instance="Origin.exe"] floating enable
 
+# don't lock or blank the screen while a window is fullscreen (videos, games)
+for_window [app_id=".*"] inhibit_idle fullscreen
+for_window [class=".*"] inhibit_idle fullscreen
+
 ### Idle configuration
-#
-# Example configuration:
-#
+# Lock the screen after 360 seconds of inactivity, turn off the displays after
+# 600 seconds and turn them back on when resumed. Also lock before sleep.
 exec swayidle -w \
-         timeout 360 'swaylock' \
+         timeout 360 'swaylock -f' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'swaylock'
+         before-sleep 'swaylock -f'
 
-bindsym $super+l exec swaylock
-
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+bindsym $super+l exec swaylock -f
 
 #####################[STARTUP]#####################
 
-exec_always --no-startup-id "killall -q deadd-notification-center"
 # Wallpaper
-output * bg ~/.config/i3/Wallpaper.png fill
+output * bg ~/.config/sway/Wallpaper.jpg fill
 #exec_always --no-startup-id "~/.config/i3/start_picom.sh"
 #exec --no-startup-id "~/.config/polybar/launch.sh"
 #exec --no-startup-id redshift
-exec_always  --no-startup-id "nm-applet"
+exec nm-applet --indicator
 #exec --no-startup-id "cbatticon"
 #exec_always --no-startup-id "blueman-applet"
 #exec_always --no-startup-id "picom"
@@ -234,9 +231,13 @@ exec mako
 #exec "ipfs-desktop"
 #exec --no-startup-id cbatticon
 #exec --no-startup-id i3-battery-popup
-exec --no-startup-id discord
+exec discord
+
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 bar {
     position bottom
     swaybar_command waybar
 }
+
+include /etc/sway/config.d/*

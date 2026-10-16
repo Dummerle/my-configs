@@ -1,0 +1,17 @@
+// Zed settings, see https://zed.dev/docs/configuring-zed
+{
+  // JetBrains as base; Eclipse shortcuts are layered on top in keymap.json
+  "disable_ai": true,
+  "project_panel": {
+    "dock": "left"
+  },
+  "base_keymap": "JetBrains",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 14,
+  "ui_font_size": 15,
+  "theme": {
+    "mode": "system",
+    "light": "One Dark",
+    "dark": "One Dark"
+  }
+}

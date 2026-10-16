@@ -1,6 +1,6 @@
 * {
 	font-size: 20px;
-	font-family: "Symbols Nerd Font", "Font Awesome 7 Free Solid", "Font Awesome 7 Free", monospace;
+	font-family: "JetBrainsMono Nerd Font Propo", monospace;
 }
 
 window#waybar {
@@ -35,7 +35,7 @@ window#waybar {
 }
 
 #workspaces button {
-	padding: 0 2px;
+	padding: 0 6px;
 	color: #fdf6e3;
 }
 #workspaces button.focused {
@@ -48,7 +48,6 @@ window#waybar {
 #workspaces button:hover {
 	background: #1a1a1a;
 	border: #1a1a1a;
-	padding: 0 3px;
 }
 
 #pulseaudio {

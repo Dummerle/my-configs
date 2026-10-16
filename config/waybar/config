@@ -102,15 +102,15 @@
 		"format": " {usage:2}%"
 	},
 	"battery": {
-        "interval": 3,
+        "interval": 10,
 		"states": {
 			"good": 75,
 			"warning": 30,
 			"critical": 15
 		},
 		"format": "{icon} {capacity}%",
-                "format-charging": " {capacity}",
-                "tooltip-format": "{timeTo}\nPower usage: {power:2}W\nHealth: {health}%",
+                "format-charging": " {capacity}%",
+                "tooltip-format": "{timeTo}\nPower usage: {power:.1f} W\nHealth: {health}%",
                 "format-time": "{H} h {M} min",
 		"format-icons": [
 			"",
@@ -129,19 +129,20 @@
 		"icon-size": 20
 	},
     "backlight": {
-            "device": "intel_backlight",
-            "format": "{icon }{percent}%",
+            "device": "amdgpu_bl1",
+            "format": "{icon} {percent}%",
             "format-icons": ["", ""]
     },
      "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        // CPU temperature (k10temp, Tctl); the hwmon number can change between boots
+        "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+        "input-filename": "temp1_input",
         "critical-threshold": 80,
         // "format-critical": " {temperatureC}°C",
         "format": " {temperatureC}°C"
     },
     "network": {
-        "interface": "wlp1s0",
+        "interface": "wlan0",
         "interval": 3,
         "format": "{ifname}",
         "format-wifi": " {essid} {bandwidthDownBytes}",

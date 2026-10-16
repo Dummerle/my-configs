@@ -1,0 +1,114 @@
+// Eclipse shortcuts (as in IntelliJ's "Eclipse" keymap) on top of the JetBrains base keymap.
+// Contexts must be at least as specific as the JetBrains bindings they override.
+[
+  {
+    "bindings": {
+      // Debugging
+      "f5": "debugger::StepInto",
+      "f6": "debugger::StepOver",
+      "f7": "debugger::StepOut",
+      "f8": "debugger::Continue",
+      "f9": null,
+      "f11": "debugger::Start",
+      "ctrl-f11": "task::Rerun",
+      "ctrl-f2": "debugger::Stop"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-shift-r": "file_finder::Toggle", // Open Resource
+      "ctrl-shift-t": "project_symbols::Toggle", // Open Type
+      "ctrl-h": "pane::DeploySearch", // Search in workspace
+      "ctrl-e": "tab_switcher::Toggle", // Quick switch editor
+      "ctrl-shift-e": "tab_switcher::Toggle",
+      "ctrl-3": "command_palette::Toggle", // Quick Access
+      "ctrl-n": "workspace::NewFile",
+      "ctrl-shift-s": "workspace::SaveAll",
+      "ctrl-m": "workspace::ToggleZoom", // Maximize editor
+      "ctrl-k": null,
+      "ctrl-shift-k": null // JetBrains: git push
+    }
+  },
+  {
+    "context": "Workspace || Editor",
+    "bindings": {
+      "ctrl-shift-k": null
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "ctrl-w": "pane::CloseActiveItem",
+      "ctrl-shift-w": "pane::CloseAllItems",
+      "ctrl-f4": "pane::CloseActiveItem",
+      "ctrl-pageup": "pane::ActivatePreviousItem",
+      "ctrl-pagedown": "pane::ActivateNextItem",
+      "ctrl-f6": "pane::ActivateNextItem",
+      "alt-left": "pane::GoBack",
+      "alt-right": "pane::GoForward"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      // Lines
+      "ctrl-d": "editor::DeleteLine",
+      "ctrl-alt-down": "editor::DuplicateLineDown",
+      "ctrl-alt-up": "editor::DuplicateLineUp",
+      "alt-up": "editor::MoveLineUp",
+      "alt-down": "editor::MoveLineDown",
+      "shift-alt-up": "editor::SelectLargerSyntaxNode", // Expand selection
+      "shift-alt-down": "editor::SelectSmallerSyntaxNode",
+      "shift-enter": "editor::NewlineBelow",
+      "ctrl-shift-enter": "editor::NewlineAbove",
+      "ctrl-shift-delete": "editor::DeleteToEndOfLine",
+      "ctrl-alt-j": "editor::JoinLines",
+      "ctrl-y": "editor::Redo",
+      "ctrl-shift-x": "editor::ConvertToUpperCase",
+      "ctrl-shift-y": "editor::ConvertToLowerCase",
+      "ctrl-/": ["editor::ToggleComments", { "advance_downwards": false }],
+      "ctrl-7": ["editor::ToggleComments", { "advance_downwards": false }],
+      "ctrl-shift-c": ["editor::ToggleComments", { "advance_downwards": false }],
+      "ctrl-shift-/": "editor::ToggleBlockComments",
+      "ctrl-shift-p": "editor::MoveToEnclosingBracket",
+
+      // Navigation
+      "f3": "editor::GoToDefinition", // Open Declaration
+      "ctrl-t": "editor::GoToImplementation", // Quick Hierarchy
+      "ctrl-shift-g": "editor::FindAllReferences",
+      "ctrl-.": "editor::GoToDiagnostic", // Next annotation
+      "ctrl-,": "editor::GoToPreviousDiagnostic",
+      "alt-left": "pane::GoBack",
+      "alt-right": "pane::GoForward",
+
+      // Refactoring
+      "shift-alt-r": "editor::Rename",
+      "ctrl-shift-f": "editor::Format",
+      "ctrl-shift-o": "editor::OrganizeImports",
+
+      // Undo JetBrains bindings that clash with Eclipse
+      "ctrl-w": "pane::CloseActiveItem",
+      "ctrl-shift-w": "pane::CloseAllItems",
+      "ctrl-m": "workspace::ToggleZoom",
+      "ctrl-shift-k": "search::SelectPreviousMatch",
+      "ctrl-k": "search::SelectNextMatch",
+      "ctrl-shift-b": "editor::ToggleBreakpoint"
+    }
+  },
+  {
+    "context": "Editor && mode == full",
+    "bindings": {
+      "ctrl-1": "editor::ToggleCodeActions", // Quick Fix
+      "f2": "editor::Hover", // Show tooltip description
+      "ctrl-o": "outline::Toggle", // Quick Outline
+      "ctrl-l": "go_to_line::Toggle",
+      "ctrl-f": ["buffer_search::Deploy", { "replace_enabled": true }],
+      "ctrl-j": "buffer_search::Deploy", // Incremental find
+      "ctrl-alt-h": "call_hierarchy::ShowIncomingCalls",
+      "ctrl-e": "tab_switcher::Toggle",
+      "ctrl-r": null,
+      "ctrl-q": null
+    }
+  }
+]
